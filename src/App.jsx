@@ -10,7 +10,9 @@ export default function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1>💰 Budget Tracker</h1>
+        <h1>
+          <span aria-hidden="true">💰</span> Budget Tracker
+        </h1>
       </header>
       <main className="app-grid">
         <div className="app-column">

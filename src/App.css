@@ -60,17 +60,35 @@
   border: 1px solid #cbd5e1;
   border-radius: 8px;
   font-size: 0.95rem;
+  background: white;
+  color: #1e293b;
+}
+
+.expense-form input:focus-visible,
+.expense-form select:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 1px;
+}
+
+.expense-form input.input-invalid {
+  border-color: #dc2626;
+}
+
+.expense-form input.input-invalid:focus-visible {
+  outline-color: #dc2626;
 }
 
 .expense-form button {
   width: 100%;
-  padding: 0.65rem;
+  padding: 0.7rem;
   border: none;
   border-radius: 8px;
   background: #2563eb;
   color: white;
   font-weight: 600;
   font-size: 0.95rem;
+  margin-top: 0.25rem;
+  transition: background-color 0.15s ease;
 }
 
 .expense-form button:hover {
@@ -79,8 +97,8 @@
 
 .form-error {
   color: #dc2626;
-  font-size: 0.85rem;
-  margin: -0.35rem 0 0.85rem;
+  font-size: 0.8rem;
+  margin: 0.3rem 0 0;
 }
 
 /* Category badge */
@@ -90,7 +108,9 @@
   border-radius: 999px;
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--badge-color);
+  /* Darken the category color for the label text so it stays readable
+     (WCAG AA) against the pale tinted background below. */
+  color: color-mix(in srgb, var(--badge-color) 55%, black 45%);
   background: color-mix(in srgb, var(--badge-color) 15%, white);
 }
 
@@ -119,16 +139,19 @@
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
+  min-width: 0;
 }
 
 .expense-description {
   font-weight: 600;
+  overflow-wrap: break-word;
 }
 
 .expense-item-meta {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  flex-shrink: 0;
 }
 
 .expense-date {
@@ -145,19 +168,32 @@
 .delete-button {
   border: none;
   background: transparent;
-  color: #94a3b8;
+  color: #64748b;
   font-size: 1rem;
-  padding: 0.2rem 0.4rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  min-width: 2.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 6px;
+  flex-shrink: 0;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-.delete-button:hover {
+.delete-button:hover,
+.delete-button:focus-visible {
   color: #dc2626;
   background: #fee2e2;
 }
 
+.delete-button:focus-visible {
+  outline: 2px solid #dc2626;
+  outline-offset: 1px;
+}
+
 .empty-state {
-  color: #94a3b8;
+  color: #64748b;
   font-size: 0.9rem;
 }
 
@@ -171,25 +207,42 @@
 
 .month-nav h2 {
   text-transform: capitalize;
+  font-size: 1.05rem;
+  text-align: center;
 }
 
 .month-nav button {
   border: 1px solid #cbd5e1;
   background: white;
   border-radius: 8px;
-  width: 2rem;
-  height: 2rem;
+  width: 2.5rem;
+  height: 2.5rem;
   font-size: 1.1rem;
   line-height: 1;
+  flex-shrink: 0;
+  color: #334155;
 }
 
 .month-nav button:hover {
   background: #f1f5f9;
 }
 
+.month-nav button:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 1px;
+}
+
 .month-total {
-  font-size: 1rem;
-  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  color: #475569;
+  margin: 0 0 1.1rem;
+}
+
+.month-total strong {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-left: 0.35rem;
 }
 
 .category-breakdown {
@@ -218,4 +271,35 @@
 .category-bar-fill {
   height: 100%;
   border-radius: 999px;
+}
+
+/* Small screens: give cramped content room to breathe and stack the
+   expense row so long descriptions and the date/amount/delete controls
+   don't get squeezed into an unreadably narrow column. */
+@media (max-width: 480px) {
+  .app {
+    padding: 1rem;
+  }
+
+  .card {
+    padding: 1rem 1.1rem;
+  }
+
+  .expense-item {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .expense-item-main {
+    flex-basis: 100%;
+  }
+
+  .expense-item-meta {
+    flex-basis: 100%;
+    margin-top: 0.15rem;
+  }
+
+  .expense-item-meta .delete-button {
+    margin-left: auto;
+  }
 }
